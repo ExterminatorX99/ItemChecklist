@@ -14,7 +14,7 @@ namespace ItemChecklist
 			int newHeight = (int)(desiredHeight * totalScale);
 			//var texture2Ds = texture2D.Select(x => ResizeImage(x, newWidth, newHeight));
 
-			RenderTarget2D renderTarget = new RenderTarget2D(Main.graphics.GraphicsDevice, desiredWidth, desiredHeight);
+			RenderTarget2D renderTarget = new(Main.graphics.GraphicsDevice, desiredWidth, desiredHeight);
 			Main.instance.GraphicsDevice.SetRenderTarget(renderTarget);
 			Main.instance.GraphicsDevice.Clear(Color.Transparent);
 			Main.spriteBatch.Begin();
@@ -31,7 +31,7 @@ namespace ItemChecklist
 						scale = (float)newWidth / texture.Width;
 				}
 
-				Vector2 position = new Vector2(newWidth / 2, newHeight / 2);
+				Vector2 position = new(newWidth / 2, newHeight / 2);
 				position += new Vector2(index * (1 - overlap) * newWidth, index * (1 - overlap) * newHeight);
 				Main.spriteBatch.Draw(texture, position, null, Color.White, 0f, new Vector2(texture.Width / 2, texture.Height / 2), scale, SpriteEffects.None, 0f);
 				index++;
@@ -39,16 +39,16 @@ namespace ItemChecklist
 			Main.spriteBatch.End();
 			Main.instance.GraphicsDevice.SetRenderTarget(null);
 
-			Texture2D mergedTexture = new Texture2D(Main.instance.GraphicsDevice, desiredWidth, desiredHeight);
+			Texture2D mergedTexture = new(Main.instance.GraphicsDevice, desiredWidth, desiredHeight);
 			Color[] content = new Color[desiredWidth * desiredHeight];
-			renderTarget.GetData<Color>(content);
-			mergedTexture.SetData<Color>(content);
+			renderTarget.GetData(content);
+			mergedTexture.SetData(content);
 			return mergedTexture;
 		}
 
 		internal static Texture2D ResizeImage(Texture2D texture2D, int desiredWidth, int desiredHeight)
 		{
-			RenderTarget2D renderTarget = new RenderTarget2D(Main.graphics.GraphicsDevice, desiredWidth, desiredHeight);
+			RenderTarget2D renderTarget = new(Main.graphics.GraphicsDevice, desiredWidth, desiredHeight);
 			Main.instance.GraphicsDevice.SetRenderTarget(renderTarget);
 			Main.instance.GraphicsDevice.Clear(Color.Transparent);
 			Main.spriteBatch.Begin();
@@ -68,10 +68,10 @@ namespace ItemChecklist
 			Main.spriteBatch.End();
 			Main.instance.GraphicsDevice.SetRenderTarget(null);
 
-			Texture2D mergedTexture = new Texture2D(Main.instance.GraphicsDevice, desiredWidth, desiredHeight);
+			Texture2D mergedTexture = new(Main.instance.GraphicsDevice, desiredWidth, desiredHeight);
 			Color[] content = new Color[desiredWidth * desiredHeight];
-			renderTarget.GetData<Color>(content); 
-			mergedTexture.SetData<Color>(content);
+			renderTarget.GetData(content); 
+			mergedTexture.SetData(content);
 			return mergedTexture;
 		}
 	}

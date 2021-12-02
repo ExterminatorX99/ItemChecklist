@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.UI;
 
 namespace ItemChecklist.UIElements
@@ -17,17 +18,17 @@ namespace ItemChecklist.UIElements
 
 		public UISilentImageButton(Texture2D texture, string hoverText)
 		{
-			this._texture = texture;
-			this.Width.Set((float)this._texture.Width, 0f);
-			this.Height.Set((float)this._texture.Height, 0f);
+			_texture = texture;
+			Width.Set(_texture.Width, 0f);
+			Height.Set(_texture.Height, 0f);
 			this.hoverText = hoverText;
 		}
 
 		public void SetImage(Texture2D texture)
 		{
-			this._texture = texture;
-			this.Width.Set((float)this._texture.Width, 0f);
-			this.Height.Set((float)this._texture.Height, 0f);
+			_texture = texture;
+			Width.Set(_texture.Width, 0f);
+			Height.Set(_texture.Height, 0f);
 		}
 
 		protected override void DrawSelf(SpriteBatch spriteBatch)
@@ -37,11 +38,11 @@ namespace ItemChecklist.UIElements
 				var r = GetDimensions().ToRectangle();
 				r.Inflate(0,0);
 				//spriteBatch.Draw(UIElements.UIRecipeSlot.selectedBackgroundTexture, r, Color.White);
-				spriteBatch.Draw( Main.inventoryBack14Texture, r, Color.White);
+				spriteBatch.Draw(TextureAssets.InventoryBack14.Value, r, Color.White);
 			}
 
-			CalculatedStyle dimensions = base.GetDimensions();
-			spriteBatch.Draw(this._texture, dimensions.Position(), Color.White * (selected ? _visibilityActive : ( IsMouseHovering ? _visibilityHovered  : this._visibilityInactive)));
+			CalculatedStyle dimensions = GetDimensions();
+			spriteBatch.Draw(_texture, dimensions.Position(), Color.White * (selected ? _visibilityActive : ( IsMouseHovering ? _visibilityHovered  : _visibilityInactive)));
 			if (IsMouseHovering)
 			{
 				Main.hoverItemName = hoverText;
@@ -51,7 +52,7 @@ namespace ItemChecklist.UIElements
 		public override void MouseOver(UIMouseEvent evt)
 		{
 			base.MouseOver(evt);
-			//Main.PlaySound(12, -1, -1, 1, 1f, 0f);
+			//SoundEngine.PlaySound(12, -1, -1, 1, 1f, 0f);
 		}
 
 		//public void SetVisibility(float whenActive, float whenInactive)

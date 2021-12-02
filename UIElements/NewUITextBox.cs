@@ -1,24 +1,26 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using ReLogic.Graphics;
-using System;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.GameContent.UI.Elements;
+using Terraria.GameInput;
 using Terraria.UI;
 
 namespace ItemChecklist.UIElements
 {
 	internal class NewUITextBox : UIPanel//UITextPanel<string>
 	{
-		internal bool focused = false;
+		internal bool focused;
 
 		//private int _cursor;
 		//private int _frameCount;
 		private int _maxLength = 60;
 
 		private string hintText;
-		internal string currentString = "";
+		internal string currentString;
 		private int textBlinkerCount;
 		private int textBlinkerState;
 
@@ -49,7 +51,7 @@ namespace ItemChecklist.UIElements
 
 			Texture2D texture = ItemChecklist.instance.GetTexture("UIElements/closeButtonSmallWhite");
 			var closeButton = new UIHoverImageButton(texture, "");
-			closeButton.OnClick += (a, b) => SetText("");
+			closeButton.OnClick += (_, _) => SetText("");
 			closeButton.Left.Set(-20f, 1f);
 			//closeButton.Top.Set(0f, .5f);
 			closeButton.VAlign = 0.5f;
@@ -120,7 +122,7 @@ namespace ItemChecklist.UIElements
 
 		public override void Update(GameTime gameTime)
 		{
-			Vector2 MousePosition = new Vector2((float)Main.mouseX, (float)Main.mouseY);
+			Vector2 MousePosition = new(Main.mouseX, Main.mouseY);
 			if (!ContainsPoint(MousePosition) && Main.mouseLeft)
 			{
 				// TODO, figure out how to refocus without triggering unfocus while clicking enable button.
@@ -156,9 +158,9 @@ namespace ItemChecklist.UIElements
 
 		public void SetText(string text)
 		{
-			if (text.ToString().Length > this._maxLength)
+			if (text.Length > _maxLength)
 			{
-				text = text.ToString().Substring(0, this._maxLength);
+				text = text[.._maxLength];
 			}
 			if (currentString != text)
 			{
@@ -169,7 +171,7 @@ namespace ItemChecklist.UIElements
 
 		public void SetTextMaxLength(int maxLength)
 		{
-			this._maxLength = maxLength;
+			_maxLength = maxLength;
 		}
 
 		//public void Backspace()
@@ -214,7 +216,7 @@ namespace ItemChecklist.UIElements
 
 			if (focused)
 			{
-				Terraria.GameInput.PlayerInput.WritingText = true;
+				PlayerInput.WritingText = true;
 				Main.instance.HandleIME();
 				string newString = Main.GetInputText(currentString);
 				if (!newString.Equals(currentString))
@@ -243,14 +245,14 @@ namespace ItemChecklist.UIElements
 					textBlinkerState = (textBlinkerState + 1) % 2;
 					textBlinkerCount = 0;
 				}
-				Main.instance.DrawWindowsIMEPanel(new Vector2(98f, (float)(Main.screenHeight - 36)), 0f);
+				Main.instance.DrawWindowsIMEPanel(new Vector2(98f, Main.screenHeight - 36));
 			}
 			string displayString = currentString;
-			if (this.textBlinkerState == 1 && focused)
+			if (textBlinkerState == 1 && focused)
 			{
 				displayString = displayString + "|";
 			}
-			CalculatedStyle space = base.GetDimensions();
+			CalculatedStyle space = GetDimensions();
 			Color color = Color.Black;
 			if (currentString.Length == 0)
 			{
@@ -260,12 +262,12 @@ namespace ItemChecklist.UIElements
 			{
 				color *= 0.5f;
 				//Utils.DrawBorderString(spriteBatch, hintText, new Vector2(space.X, space.Y), Color.Gray, 1f);
-				spriteBatch.DrawString(Main.fontMouseText, hintText, drawPos, color);
+				spriteBatch.DrawString(FontAssets.MouseText.Value, hintText, drawPos, color);
 			}
 			else
 			{
 				//Utils.DrawBorderString(spriteBatch, displayString, drawPos, Color.White, 1f);
-				spriteBatch.DrawString(Main.fontMouseText, displayString, drawPos, color);
+				spriteBatch.DrawString(FontAssets.MouseText.Value, displayString, drawPos, color);
 			}
 
 			//			CalculatedStyle innerDimensions2 = base.GetInnerDimensions();

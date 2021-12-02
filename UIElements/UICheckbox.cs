@@ -1,8 +1,7 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria.GameContent.UI.Elements;
-using Terraria.ModLoader;
 using Terraria.UI;
 
 namespace ItemChecklist.UIElements
@@ -12,9 +11,9 @@ namespace ItemChecklist.UIElements
 		public static Texture2D checkboxTexture;
 		public static Texture2D checkmarkTexture;
 		public event EventHandler SelectedChanged;
-		float order = 0;
+		float order;
 
-		private bool selected = false;
+		private bool selected;
 		public bool Selected
 		{
 			get { return selected; }
@@ -31,7 +30,7 @@ namespace ItemChecklist.UIElements
 		public UICheckbox(float order, string text, float textScale = 1, bool large = false) : base(text, textScale, large)
 		{
 			this.order = order;
-			this.Left.Pixels += 20;
+			Left.Pixels += 20;
 			//TextColor = Color.Blue;
 			//OnClick += UICheckbox_onLeftClick;
 			Recalculate();
@@ -44,8 +43,8 @@ namespace ItemChecklist.UIElements
 
 		protected override void DrawSelf(SpriteBatch spriteBatch)
 		{
-			CalculatedStyle innerDimensions = base.GetInnerDimensions();
-			Vector2 pos = new Vector2(innerDimensions.X - 20, innerDimensions.Y - 5);
+			CalculatedStyle innerDimensions = GetInnerDimensions();
+			Vector2 pos = new(innerDimensions.X - 20, innerDimensions.Y - 5);
 
 			spriteBatch.Draw(checkboxTexture, pos, null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 			if (Selected)
