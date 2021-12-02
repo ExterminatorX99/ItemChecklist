@@ -37,7 +37,7 @@ namespace ItemChecklist
 			{
 				if (!ItemChecklistUI.Visible)
 				{
-					UISystem.instance.ItemChecklistUI.UpdateNeeded();
+					ItemChecklistUI.instance.UpdateNeeded();
 				}
 				ItemChecklistUI.Visible = !ItemChecklistUI.Visible;
 				// Debug assistance, allows for reinitializing RecipeBrowserUI
@@ -58,8 +58,8 @@ namespace ItemChecklist
 			ItemChecklistUI.collectChestItems = findChestItemsPreference;
 			//ItemChecklistUI.sortMode = sortModePreference;
 			ItemChecklistUI.showCompleted = showCompletedPreference;
-			UISystem.instance.ItemChecklistUI.RefreshPreferences();
-			UISystem.instance.ItemChecklistUI.UpdateNeeded();
+			ItemChecklistUI.instance.RefreshPreferences();
+			ItemChecklistUI.instance.UpdateNeeded();
 		}
 
 		// Do I need to use Initialize? I think so because of cloning.

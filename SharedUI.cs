@@ -238,9 +238,7 @@ namespace ItemChecklist
 			left = 0;
 			foreach (var sort in availableSorts)
 			{
-				sort.button.selected = false;
-				if (SelectedSort == sort) // TODO: SelectedSort no longwe valid
-					sort.button.selected = true;
+				sort.button.selected = SelectedSort == sort; // TODO: SelectedSort no longer valid
 				//sort.button.Left.Pixels = left;
 				//sort.button.Top.Pixels = 24;
 				//sort.button.Width
@@ -528,7 +526,7 @@ namespace ItemChecklist
 					sorts = new List<Sort> { new("Ammo Type", "Images/sortAmmo", (x, y) => x.ammo.CompareTo(y.ammo), x => $"{x.ammo}") }
 					// TODO: Filters/Subcategories for all ammo types?
 				},
-				new("Potions", x => x.UseSound != null && x.UseSound.Style == 3, smallPotions)
+				new("Potions", x => x.UseSound is { Style: 3 }, smallPotions)
 				{
 					subCategories = new List<Category>
 					{
@@ -536,7 +534,7 @@ namespace ItemChecklist
 							{ sorts = new List<Sort> { new("Heal Life", smallHealth, (x, y) => x.healLife.CompareTo(y.healLife), x => $"{x.healLife}") } },
 						new("Mana Potions", x => x.healMana > 0, smallMana)
 							{ sorts = new List<Sort> { new("Heal Mana", smallMana, (x, y) => x.healMana.CompareTo(y.healMana), x => $"{x.healMana}") } },
-						new("Buff Potions", x => x.UseSound != null && x.UseSound.Style == 3 && x.buffType > 0, smallBuff)
+						new("Buff Potions", x => x.UseSound is { Style: 3 } && x.buffType > 0, smallBuff)
 						// Todo: Automatic other category?
 					}
 				},
@@ -601,7 +599,7 @@ namespace ItemChecklist
 				},
 				new("Extractinator", x => ItemID.Sets.ExtractinatorMode[x.type] > -1, smallExtractinator),
 				//modCategory,
-				new("Other", x => BelongsInOther(x), smallOther)
+				new("Other", BelongsInOther, smallOther)
 			};
 
 			/* Think about this one.
@@ -640,12 +638,7 @@ namespace ItemChecklist
 		private bool BelongsInOther(Item item)
 		{
 			var cats = categories.Skip(1).Take(categories.Count - 2);
-			foreach (var category in cats)
-			{
-				if (category.BelongsRecursive(item))
-					return false;
-			}
-			return true;
+			return cats.All(category => !category.BelongsRecursive(item));
 		}
 	}
 
@@ -727,8 +720,7 @@ namespace ItemChecklist
 
 		public Category(string name, Predicate<Item> belongs, Texture2D texture = null)
 		{
-			if (texture == null)
-				texture = ItemChecklist.instance.GetTexture("Images/sortAmmo");
+			texture ??= ItemChecklist.instance.GetTexture("Images/sortAmmo");
 			this.name = name;
 			subCategories = new List<Category>();
 			sorts = new List<Sort>();
@@ -748,15 +740,12 @@ namespace ItemChecklist
 
 		internal bool BelongsRecursive(Item item)
 		{
-			if (belongs(item))
-				return true;
-			return subCategories.Any(x => x.belongs(item));
+			return belongs(item) || subCategories.Any(x => x.belongs(item));
 		}
 
 		internal void ParentAddToSorts(List<Sort> availableSorts)
 		{
-			if (parent != null)
-				parent.ParentAddToSorts(availableSorts);
+			parent?.ParentAddToSorts(availableSorts);
 			availableSorts.AddRange(sorts);
 		}
 	}

@@ -22,19 +22,19 @@ namespace ItemChecklist
 		internal static void ItemReceived(Item item)
 		{
 			var itemChecklistPlayer = Main.LocalPlayer.GetModPlayer<ItemChecklistPlayer>();
-			if (!itemChecklistPlayer.foundItem[item.type] && itemChecklistPlayer.findableItems[item.type])
+			if (itemChecklistPlayer.foundItem[item.type] || !itemChecklistPlayer.findableItems[item.type])
+				return;
+
+			Item newItem = new(item.type);
+			itemChecklistPlayer.foundItems.Add(newItem);
+			itemChecklistPlayer.totalItemsFound++;
+			itemChecklistPlayer.foundItem[item.type] = true;
+			ItemChecklistUI.instance.UpdateNeeded(item.type);
+			if (ItemChecklistUI.announce)
 			{
-				Item newItem = new(item.type);
-				itemChecklistPlayer.foundItems.Add(newItem);
-				itemChecklistPlayer.totalItemsFound++;
-				itemChecklistPlayer.foundItem[item.type] = true;
-				UISystem.instance.ItemChecklistUI.UpdateNeeded(item.type);
-				if (ItemChecklistUI.announce)
-				{
-					Main.NewText($"You found your first {item.Name}.     {itemChecklistPlayer.totalItemsFound}/{itemChecklistPlayer.totalItemsToFind}   {(100f*itemChecklistPlayer.totalItemsFound/itemChecklistPlayer.totalItemsToFind).ToString("0.00")}%");
-				}
-				ItemChecklist.instance.NewItem(item.type);
+				Main.NewText($"You found your first {item.Name}.     {itemChecklistPlayer.totalItemsFound}/{itemChecklistPlayer.totalItemsToFind}   {(100f*itemChecklistPlayer.totalItemsFound/itemChecklistPlayer.totalItemsToFind).ToString("0.00")}%");
 			}
+			ItemChecklist.instance.NewItem(item.type);
 		}
 	}
 }

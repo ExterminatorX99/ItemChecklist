@@ -250,7 +250,7 @@ namespace ItemChecklist.UIElements
 			string displayString = currentString;
 			if (textBlinkerState == 1 && focused)
 			{
-				displayString = displayString + "|";
+				displayString += "|";
 			}
 			CalculatedStyle space = GetDimensions();
 			Color color = Color.Black;

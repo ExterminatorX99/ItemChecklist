@@ -64,15 +64,7 @@ namespace ItemChecklist.UIElements
 
 			spriteBatch.Draw(backgroundTexture, dimensions.Position(), null, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
 			//Texture2D texture2D = TextureAssets.Item[this.item.type].Value;
-			Rectangle rectangle2;
-			if (Main.itemAnimations[id] != null)
-			{
-				rectangle2 = Main.itemAnimations[id].GetFrame(_texture);
-			}
-			else
-			{
-				rectangle2 = _texture.Frame();
-			}
+			Rectangle rectangle2 = Main.itemAnimations[id] != null ? Main.itemAnimations[id].GetFrame(_texture) : _texture.Frame();
 			float num = 1f;
 			float num2 = backgroundTexture.Width * scale;
 			if (rectangle2.Width > num2 || rectangle2.Height > num2)

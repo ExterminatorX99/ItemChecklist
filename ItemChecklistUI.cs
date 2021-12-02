@@ -17,7 +17,7 @@ using Terraria.UI;
 
 namespace ItemChecklist
 {
-	class ItemChecklistUI : UIState
+	class ItemChecklistUI : UIState, ILoadable
 	{
 		internal static ItemChecklistUI instance;
 		public UIHoverImageButton foundFilterButton;
@@ -37,8 +37,8 @@ namespace ItemChecklist
 		float spacing = 8f;
 		public static bool Visible
 		{
-			get { return UISystem.ItemChecklistInterface.CurrentState == UISystem.instance.ItemChecklistUI; }
-			set { UISystem.ItemChecklistInterface.SetState(value ? UISystem.instance.ItemChecklistUI : null); }
+			get => UISystem.ItemChecklistInterface.CurrentState == instance;
+			set => UISystem.ItemChecklistInterface.SetState(value ? instance : null);
 		}
 		public static int showCompleted; // 0: both, 1: unfound, 2: found
 		public static bool announce = true;
@@ -54,7 +54,7 @@ namespace ItemChecklist
 
 		public string[] foundFilterStrings = { "All", "Unfound", "Found" };
 
-		public ItemChecklistUI()
+		public void Load(Mod mod)
 		{
 			instance = this;
 		}
@@ -219,7 +219,7 @@ namespace ItemChecklist
 			updateNeeded = true;
 		}
 
-		private int ItemGridSort(UIElement x, UIElement y)
+		private static int ItemGridSort(UIElement x, UIElement y)
 		{
 			var a = x as UIElements.UIItemSlot;
 			var b = y as UIElements.UIItemSlot;
@@ -431,7 +431,7 @@ namespace ItemChecklist
 			UpdateCheckboxes();
 		}
 
-		private string GetTooltipsAsString(ItemTooltip toolTip)
+		private static string GetTooltipsAsString(ItemTooltip toolTip)
 		{
 			StringBuilder sb = new();
 			for (int j = 0; j < toolTip.Lines; j++)

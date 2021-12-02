@@ -68,14 +68,14 @@ namespace ItemChecklist.UIElements
 
 		public void Goto(ElementSearchMethod searchMethod, bool center = false)
 		{
-			for (int i = 0; i < _items.Count; i++)
+			foreach (UIElement item in _items)
 			{
-				if (searchMethod(_items[i]))
+				if (searchMethod(item))
 				{
-					_scrollbar.ViewPosition = _items[i].Top.Pixels;
+					_scrollbar.ViewPosition = item.Top.Pixels;
 					if (center)
 					{
-						_scrollbar.ViewPosition = _items[i].Top.Pixels - GetInnerDimensions().Height/2 + _items[i].GetOuterDimensions().Height/2;
+						_scrollbar.ViewPosition = item.Top.Pixels - GetInnerDimensions().Height/2 + item.GetOuterDimensions().Height/2;
 					}
 					return;
 				}
@@ -160,11 +160,7 @@ namespace ItemChecklist.UIElements
 
 		private void UpdateScrollbar()
 		{
-			if (_scrollbar == null)
-			{
-				return;
-			}
-			_scrollbar.SetView(GetInnerDimensions().Height, _innerListHeight);
+			_scrollbar?.SetView(GetInnerDimensions().Height, _innerListHeight);
 		}
 
 		public void SetScrollbar(UIScrollbar scrollbar)
@@ -176,14 +172,11 @@ namespace ItemChecklist.UIElements
 		internal Comparison<UIElement> alternateSort;
 		public void UpdateOrder()
 		{
-			if (alternateSort != null)
-				_items.Sort(alternateSort);
-			else
-				_items.Sort(SortMethod);
+			_items.Sort(alternateSort ?? SortMethod);
 			UpdateScrollbar();
 		}
 
-		public int SortMethod(UIElement item1, UIElement item2)
+		public static int SortMethod(UIElement item1, UIElement item2)
 		{
 			return item1.CompareTo(item2);
 		}

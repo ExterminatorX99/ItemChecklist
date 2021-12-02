@@ -68,14 +68,14 @@ namespace ItemChecklist.UIElements
 
 		public void Goto(ElementSearchMethod searchMethod, bool center = false)
 		{
-			for (int i = 0; i < _items.Count; i++)
+			foreach (UIElement item in _items)
 			{
-				if (searchMethod(_items[i]))
+				if (searchMethod(item))
 				{
-					_scrollbar.ViewPosition = _items[i].Left.Pixels;
+					_scrollbar.ViewPosition = item.Left.Pixels;
 					if (center)
 					{
-						_scrollbar.ViewPosition = _items[i].Left.Pixels - GetInnerDimensions().Width / 2 + _items[i].GetOuterDimensions().Width / 2;
+						_scrollbar.ViewPosition = item.Left.Pixels - GetInnerDimensions().Width / 2 + item.GetOuterDimensions().Width / 2;
 					}
 					return;
 				}
@@ -137,9 +137,8 @@ namespace ItemChecklist.UIElements
 			float left = 0f;
 			float top = 0f;
 			float maxRowWidth = 0f;
-			for (int i = 0; i < _items.Count; i++)
+			foreach (UIElement item in _items)
 			{
-				var item = _items[i];
 				var outerDimensions = item.GetOuterDimensions();
 				if (top + outerDimensions.Height > availableHeight && top > 0)
 				{
@@ -158,11 +157,7 @@ namespace ItemChecklist.UIElements
 
 		private void UpdateScrollbar()
 		{
-			if (_scrollbar == null)
-			{
-				return;
-			}
-			_scrollbar.SetView(GetInnerDimensions().Width, _innerListWidth);
+			_scrollbar?.SetView(GetInnerDimensions().Width, _innerListWidth);
 		}
 
 		public void SetScrollbar(UIHorizontalScrollbar scrollbar)
@@ -177,7 +172,7 @@ namespace ItemChecklist.UIElements
 			UpdateScrollbar();
 		}
 
-		public int SortMethod(UIElement item1, UIElement item2)
+		public static int SortMethod(UIElement item1, UIElement item2)
 		{
 			return item1.CompareTo(item2);
 		}

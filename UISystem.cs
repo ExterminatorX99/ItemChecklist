@@ -12,7 +12,6 @@ public class UISystem : ModSystem
 {
 	internal static UISystem instance;
 	internal static UserInterface ItemChecklistInterface;
-	internal ItemChecklistUI ItemChecklistUI;
 
 	public override void Load()
 	{
@@ -30,8 +29,6 @@ public class UISystem : ModSystem
 	public override void Unload()
 	{
 		ItemChecklistInterface = null;
-		ItemChecklistUI?.Unload();
-		ItemChecklistUI = null;
 		instance = null;
 
 		UICheckbox.checkboxTexture = null;
@@ -44,11 +41,8 @@ public class UISystem : ModSystem
 	{
 		if (!Main.dedServ)
 		{
-			ItemChecklistUI = new ItemChecklistUI();
-			ItemChecklistUI.Activate();
-
 			ItemChecklistInterface = new UserInterface();
-			ItemChecklistInterface.SetState(ItemChecklistUI);
+			ItemChecklistUI.Visible = true;
 		}
 	}
 
