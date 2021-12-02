@@ -10,13 +10,11 @@ namespace ItemChecklist;
 
 public class UISystem : ModSystem
 {
-	internal static UISystem instance;
+	internal static UISystem instance => ModContent.GetInstance<UISystem>();
 	internal static UserInterface ItemChecklistInterface;
 
 	public override void Load()
 	{
-		instance = this;
-
 		if (!Main.dedServ)
 		{
 			UICheckbox.checkboxTexture = ItemChecklist.instance.GetTexture("UIElements/checkBox");
@@ -29,7 +27,6 @@ public class UISystem : ModSystem
 	public override void Unload()
 	{
 		ItemChecklistInterface = null;
-		instance = null;
 
 		UICheckbox.checkboxTexture = null;
 		UICheckbox.checkmarkTexture = null;

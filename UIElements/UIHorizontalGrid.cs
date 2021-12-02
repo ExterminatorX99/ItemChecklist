@@ -43,13 +43,7 @@ namespace ItemChecklist.UIElements
 		public static Texture2D moreLeftTexture;
 		public static Texture2D moreRightTexture;
 
-		public int Count
-		{
-			get
-			{
-				return _items.Count;
-			}
-		}
+		public int Count => _items.Count;
 
 		// todo, vertical/horizontal orientation, left to right, etc?
 		public UIHorizontalGrid()

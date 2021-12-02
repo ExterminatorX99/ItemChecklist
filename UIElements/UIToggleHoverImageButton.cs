@@ -11,7 +11,7 @@ namespace ItemChecklist.UIElements
 		private Texture2D overlay;
 		private float _visibilityActive = 1f;
 		private float _visibilityInactive = 0.4f;
-		bool enabled;
+		private bool enabled;
 		internal string hoverText;
 
 		public UIToggleHoverImageButton(Texture2D texture, Texture2D overlay, string hoverText, bool enabled = false) : base(texture)

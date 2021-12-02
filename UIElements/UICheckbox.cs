@@ -6,17 +6,17 @@ using Terraria.UI;
 
 namespace ItemChecklist.UIElements
 {
-	class UICheckbox : UIText
+	internal class UICheckbox : UIText
 	{
 		public static Texture2D checkboxTexture;
 		public static Texture2D checkmarkTexture;
 		public event EventHandler SelectedChanged;
-		float order;
+		private float order;
 
 		private bool selected;
 		public bool Selected
 		{
-			get { return selected; }
+			get => selected;
 			set
 			{
 				if (value != selected)

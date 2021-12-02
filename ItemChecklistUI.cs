@@ -17,7 +17,7 @@ using Terraria.UI;
 
 namespace ItemChecklist
 {
-	class ItemChecklistUI : UIState, ILoadable
+	internal class ItemChecklistUI : UIState, ILoadable
 	{
 		internal static ItemChecklistUI instance;
 		public UIHoverImageButton foundFilterButton;
@@ -34,7 +34,7 @@ namespace ItemChecklist
 		public UIGrid checklistGrid;
 		//public static SortModes sortMode = SortModes.TerrariaSort;
 
-		float spacing = 8f;
+		private float spacing = 8f;
 		public static bool Visible
 		{
 			get => UISystem.ItemChecklistInterface.CurrentState == instance;
@@ -46,7 +46,7 @@ namespace ItemChecklist
 		public static bool showBadge = true;
 		public static string hoverText = "";
 
-		UIElements.UIItemSlot[] itemSlots;
+		private UIElements.UIItemSlot[] itemSlots;
 		internal static int[] vanillaIDsInSortOrder;
 
 		internal List<string> modnames;
@@ -330,7 +330,7 @@ namespace ItemChecklist
 				if (itemChecklistPlayer.findableItems[i])
 				{
 					// filters here
-					if ((showCompleted != 1 && itemChecklistPlayer.foundItem[i]) || (showCompleted != 2 && !itemChecklistPlayer.foundItem[i]))
+					if (showCompleted != 1 && itemChecklistPlayer.foundItem[i] || showCompleted != 2 && !itemChecklistPlayer.foundItem[i])
 					{
 						if (!PassModFilter(itemSlots[i]))
 							continue;
@@ -356,7 +356,7 @@ namespace ItemChecklist
 
 						if (itemDescriptionFilter.currentString.Length > 0)
 						{
-							if ((itemSlots[i].item.ToolTip != null && GetTooltipsAsString(itemSlots[i].item.ToolTip).IndexOf(itemDescriptionFilter.currentString, StringComparison.OrdinalIgnoreCase) != -1) /*|| (recipe.createItem.toolTip2 != null && recipe.createItem.toolTip2.ToLower().IndexOf(itemDescriptionFilter.Text, StringComparison.OrdinalIgnoreCase) != -1)*/)
+							if (itemSlots[i].item.ToolTip != null && GetTooltipsAsString(itemSlots[i].item.ToolTip).IndexOf(itemDescriptionFilter.currentString, StringComparison.OrdinalIgnoreCase) != -1 /*|| (recipe.createItem.toolTip2 != null && recipe.createItem.toolTip2.ToLower().IndexOf(itemDescriptionFilter.Text, StringComparison.OrdinalIgnoreCase) != -1)*/)
 							{
 							}
 							else

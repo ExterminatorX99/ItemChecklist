@@ -41,15 +41,9 @@ namespace ItemChecklist.UIElements
 		private float _innerListHeight;
 		public float ListPadding = 5f;
 
-		public int Count
-		{
-			get
-			{
-				return _items.Count;
-			}
-		}
+		public int Count => _items.Count;
 
-		int cols;
+		private int cols;
 
 		public UIGrid(int columns = 1)
 		{

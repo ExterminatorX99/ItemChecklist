@@ -8,7 +8,7 @@ using Terraria.ModLoader.IO;
 
 namespace ItemChecklist
 {
-	class ItemChecklistPlayer : ModPlayer
+	internal class ItemChecklistPlayer : ModPlayer
 	{
 		//	internal static ItemChecklistPlayer localInstance;
 

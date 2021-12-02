@@ -4,12 +4,12 @@ using Terraria;
 
 namespace ItemChecklist
 {
-	static class Utilities
+	internal static class Utilities
 	{
 		internal static Texture2D StackResizeImage(Texture2D[] texture2D, int desiredWidth, int desiredHeight)
 		{
 			float overlap = .5f;
-			float totalScale = 1 / (1f + ((1 - overlap) * (texture2D.Length - 1)));
+			float totalScale = 1 / (1f + (1 - overlap) * (texture2D.Length - 1));
 			int newWidth = (int)(desiredWidth * totalScale);
 			int newHeight = (int)(desiredHeight * totalScale);
 			//var texture2Ds = texture2D.Select(x => ResizeImage(x, newWidth, newHeight));

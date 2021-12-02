@@ -19,14 +19,8 @@ namespace ItemChecklist.UIElements
 
 		public float ViewPosition
 		{
-			get
-			{
-				return _viewPosition;
-			}
-			set
-			{
-				_viewPosition = MathHelper.Clamp(value, 0f, _maxViewSize - _viewSize);
-			}
+			get => _viewPosition;
+			set => _viewPosition = MathHelper.Clamp(value, 0f, _maxViewSize - _viewSize);
 		}
 
 		public UIHorizontalScrollbar()
@@ -92,7 +86,7 @@ namespace ItemChecklist.UIElements
 				SoundEngine.PlaySound(12);
 			}
 			DrawBar(spriteBatch, _texture, dimensions.ToRectangle(), Color.White);
-			DrawBar(spriteBatch, _innerTexture, handleRectangle, Color.White * ((_isDragging || _isHoveringOverHandle) ? 1f : 0.85f));
+			DrawBar(spriteBatch, _innerTexture, handleRectangle, Color.White * (_isDragging || _isHoveringOverHandle ? 1f : 0.85f));
 		}
 
 		public override void MouseDown(UIMouseEvent evt)

@@ -13,11 +13,11 @@ namespace ItemChecklist
 	// Here we show a few pitfalls that might cause a TypeInitializationException to be thrown.
 	// Remember, you have to gate all access to Types and Methods defined in the weakly referenced mod or it will crash.
 	// All calls to methods in this class by this mod besides Load and Unload are gated with a check to Enabled.
-	static class MagicStorageIntegration
+	internal static class MagicStorageIntegration
 	{
 		// Here we store a reference to the MagicStorage Mod instance. We can use it for many things.
 		// You can call all the Mod methods on it just like we do with our own Mod instance: MagicStorage.ItemType("ShadowDiamond")
-		static Mod MagicStorage;
+		private static Mod MagicStorage;
 
 		// Here we define a bool property to quickly check if MagicStorage is loaded.
 		public static bool Enabled => MagicStorage != null;
@@ -29,13 +29,13 @@ namespace ItemChecklist
 		// Usually letting tModLoader handle the version requirement and forcing your users to update their mods is easier and better.
 		//public static bool Enabled => MagicStorage != null && MagicStorage.Version >= new Version(0, 4, 3, 1);
 
-		static Point16 previousStorageAccess = new(-1, -1);
+		private static Point16 previousStorageAccess = new(-1, -1);
 
 		// Here is an example of using Types in MagicStorage. Note the special approaches that must be made with weak referenced Mods.
 		//static StorageAccess tile = null; // Assigning a class/static field, even to null, will throw TypeInitializationException
 		//static StorageAccess tile; // Not assigning a field seems to work, but actually crashes on Mono (Mac/Linux).
 		// The solution that works is an inner class (Or non-inner, doesn't matter). Here we use a static class, but a non-static class could also be used if more convenient (using a constructor, unloading everything at once).
-		static class MagicStorageIntegrationMembers
+		private static class MagicStorageIntegrationMembers
 		{
 			internal static StorageAccess tile;
 		}

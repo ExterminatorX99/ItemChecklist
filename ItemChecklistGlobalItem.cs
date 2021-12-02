@@ -3,7 +3,7 @@ using Terraria.ModLoader;
 
 namespace ItemChecklist
 {
-	class ItemChecklistGlobalItem : GlobalItem
+	internal class ItemChecklistGlobalItem : GlobalItem
 	{
 		// OnPIckup only called on LocalPlayer: I think
 		public override void OnCreate(Item item, ItemCreationContext context)

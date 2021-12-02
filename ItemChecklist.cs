@@ -13,13 +13,12 @@ namespace ItemChecklist
 	// WHY? I want to know everything we can craft yet
 	public class ItemChecklist : Mod
 	{
-		internal static ItemChecklist instance;
+		internal static ItemChecklist instance => ModContent.GetInstance<ItemChecklist>();
 		internal static ModKeybind ToggleChecklistHotKey;
 		internal event Action<int> OnNewItem;
 
 		public override void Load()
 		{
-			instance = this;
 			ToggleChecklistHotKey = KeybindLoader.RegisterKeybind(this, "Toggle Item Checklist", "I");
 			MagicStorageIntegration.Load();
 		}
@@ -27,7 +26,6 @@ namespace ItemChecklist
 		public override void Unload()
 		{
 			ItemChecklistUI.vanillaIDsInSortOrder = null;
-			instance = null;
 			ToggleChecklistHotKey = null;
 			MagicStorageIntegration.Unload();
 		}

@@ -6,7 +6,7 @@ using Terraria.UI;
 
 namespace ItemChecklist.UIElements
 {
-	class UISilentImageButton : UIElement
+	internal class UISilentImageButton : UIElement
 	{
 		private Texture2D _texture;
 		private float _visibilityActive = 1f;
@@ -42,7 +42,7 @@ namespace ItemChecklist.UIElements
 			}
 
 			CalculatedStyle dimensions = GetDimensions();
-			spriteBatch.Draw(_texture, dimensions.Position(), Color.White * (selected ? _visibilityActive : ( IsMouseHovering ? _visibilityHovered  : _visibilityInactive)));
+			spriteBatch.Draw(_texture, dimensions.Position(), Color.White * (selected ? _visibilityActive : IsMouseHovering ? _visibilityHovered  : _visibilityInactive));
 			if (IsMouseHovering)
 			{
 				Main.hoverItemName = hoverText;

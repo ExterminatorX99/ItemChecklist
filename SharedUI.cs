@@ -15,7 +15,7 @@ using static ItemChecklist.Utilities;
 // Copied from my Recipe Browser mod.
 namespace ItemChecklist
 {
-	class SharedUI
+	internal class SharedUI
 	{
 		internal static SharedUI instance;
 		internal bool updateNeeded;
